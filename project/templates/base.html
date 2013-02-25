@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Django Project | {% block title %}  {% endblock %}</title>
+        <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico" type="image/x-icon" />
+
+        
+        {% block styles %}
+            <link href="{{STATIC_URL}}css/style.css" type="text/css" rel="stylesheet" />
+        {% endblock %}
+
+        {% block scripts %}
+        <script src="{{STATIC_URL}}js/jquery-1.7.2.min.js"></script>
+        {% endblock %}
+
+        {% block local_scripts %}
+        {% endblock %}
+
+        {% block local_styles %}
+        {% endblock %}
+    </head>
+
+    <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+        <div class="global">
+        {% block body %}
+            <div class="content_title">
+                {% block content_title %}{% endblock %}
+            </div>
+
+            <div id="header">
+                <div class="aligner">
+                    <img src="{{ STATIC_URL }}img/logo.png" alt="">
+                </div>                    
+            </div>
+            
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        {% endblock %}
+        </div>
+    </body>
+</html>

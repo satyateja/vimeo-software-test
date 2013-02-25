@@ -1,0 +1,13 @@
+<p class="total_count"><span>Total Results: </span>{{ total }}</p>
+<ul class="clearfix user_list">
+    {% for user in users %}
+        <li>
+            <ul>
+                <li><span>Name:</span> <a href="{{ user.url }}">{{ user.name }}</a></li>
+                <li><span>Paying:</span> {{ user.paying }}</li>
+                <li><span>Staff Pick:</span> {{ user.staffpick }}</li>
+                <li><span>Uploaded Videos:</span> {{ user.video }}</li>
+            </ul>
+        </li>
+    {% endfor %}
+</ul>

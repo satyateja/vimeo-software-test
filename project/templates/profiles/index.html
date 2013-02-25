@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="v_search aligner">
+        <div class="s_box">
+            <form class="js_search_bar">
+                {% csrf_token %}
+                <input name="search" class="js_search search_input" type="text" />
+                <input name="submit" class="js_submit search_submit" type="submit" value="Search" />
+                <span>Paying:</span> <input type="checkbox" name="paying" class="js_paying">
+                <span>Uploaded:</span> <input type="checkbox" name="uploaded" class="js_uploaded">
+                <span>Staff Pick:</span> <input type="checkbox" name="staff" class="js_staff">
+            </form>
+        </div>
+        <div class="js_search_results">
+
+        </div>
+    </div>
+{% endblock %}
+{% block local_scripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.js_submit').click(function(){
+                var att = $('.js_search_bar').serialize();
+                ajax_post({
+                    url: '{% url ajax_search %}',
+                    data: att,
+                    success: function(data){
+                        $('.js_search_results').html(data);
+                    }
+                });
+                return false;
+            });
+        });
+        // function generic to all ajax post calls
+        // parameters are
+        // url-(url to which ajax post call should be made),
+        // data-(data string to be passed as post),
+        // success-(function that should be called on success of ajax call) - (response data will be passed to this function as parameter data)
+        function ajax_post(object){
+            // ajax setup for csrf token
+            var csrftoken = getCookie('csrftoken');
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                        // Send the token to same-origin, relative URLs only.
+                        // Send the token only if the method warrants CSRF protection
+                        // Using the CSRFToken value acquired earlier
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: object.url,
+                data: object.data,
+                success: function(data){
+                    object.success(data);
+                },
+                error: function(xhr, textStatus, error) {
+                    alert('Server error occurred. Please Try Again');
+                }
+            });
+        }
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        function sameOrigin(url) {
+            // test that a given url is a same-origin URL
+            // url could be relative or scheme relative or absolute
+            var host = document.location.host; // host + port
+            var protocol = document.location.protocol;
+            var sr_origin = '//' + host;
+            var origin = protocol + sr_origin;
+            // Allow absolute or scheme relative URLs to same origin
+            return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+                    (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+                // or any other URL that isn't scheme relative or absolute i.e relative.
+                    !(/^(\/\/|http:|https:).*/.test(url));
+        }
+
+    </script>
+{% endblock %}
