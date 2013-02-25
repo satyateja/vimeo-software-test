@@ -18,12 +18,16 @@ similar queries.
 
 ## Project Setup
 Steps:-
-1) Download the project codebase
-2) In Terminal change path to project (cd ~/Desktop/App is App is in Desktop)
-3) Run the following command to install requirements
-    - pip install -R requirements.txt (if pip was not installed then - sudo apt-get install pip)
-4) Create a Database on your mysql server
-5) Open settings.py an update the following Database settings
+* Download the project codebase
+* In Terminal change path to project (cd ~/Desktop/App is App is in Desktop)
+* Run the following command to install requirements
+    ```
+    pip install -R requirements.txt #(if pip was not installed then - sudo apt-get install pip)
+    ```
+* Create a Database on your mysql server
+* Open settings.py an update the following Database settings
+
+    ```python
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -34,8 +38,11 @@ Steps:-
             'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
-6) Now the following command to create schema
-    - python manage.py syncdb
+    ```
+* Now the following command to create schema
+    ```
+    python manage.py syncdb
+    ```
 
 
 
@@ -48,10 +55,10 @@ uploaded video status for all users will be False
 
 
 Steps:-
-1) python manage.py shell
-    (Note: '>>>' indicates these commands should be ran on python shell)
-2) >>> from project.utils import *
-3) >>> get_vimeo_categories()
+* python manage.py shell
+    (Note: '>>>' indicates these commands should be run on python shell)
+* >>> from project.utils import *
+* >>> get_vimeo_categories()
 
 
 
@@ -61,8 +68,6 @@ Steps:-
 
 ## Searching Users
 
-SEARCH TERM             WHAT HAPPENS
------------             ------------
-abc                     all users whose name contains abc
-^abc                    all users whose name starts with abc
-=abc                    all users whose name is equal to abc
+* abc                     all users whose name contains abc
+* ^abc                    all users whose name starts with abc
+* =abc                    all users whose name is equal to abc
